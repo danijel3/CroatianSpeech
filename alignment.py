@@ -93,10 +93,10 @@ def visualize(audiofile: Path, segmentation: List[Tuple[str, float, float]], sub
             if seg[1] >= sub[0] and seg[2] <= sub[1]:
                 seg_filt.append((seg[0], seg[1] - sub[0], seg[2] - sub[0]))
 
-        audio = Audio(data=data, element_id=f"{pfx}_audioplayer", rate=rate)._repr_html_()
+        audio = Audio(data=data, rate=rate)._repr_html_().replace('<audio',f'<audio id="{pfx}_audioplayer"')
         segmentation = json.dumps(seg_filt)
     else:
-        audio = Audio(filename=str(audiofile), element_id=f"{pfx}_audioplayer")._repr_html_()
+        audio = Audio(filename=str(audiofile))._repr_html_().replace('<audio',f'<audio id="{pfx}_audioplayer"')
         segmentation = json.dumps(segmentation)
 
     return render(audio, segmentation, pfx)
